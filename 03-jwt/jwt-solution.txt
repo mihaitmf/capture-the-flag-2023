@@ -7,5 +7,8 @@ hashcat-6.2.6/hashcat.bin -m 16500 -a 0 jwt_token.txt rockyou.txt --force
 To show again the secret key that was found:
 hashcat-6.2.6/hashcat.bin -m 16500 -a 0 jwt_token.txt rockyou.txt --force --show
 
+OR run from inside the vagrant box of Kali Linux:
+hashcat -m 16500 -a 0 jwt_token.txt /usr/share/wordlists/rockyou.txt.gz
+
 The with the secret key we go and replace it in the token generator script (jwt.js) and run:
 node jwt.js
