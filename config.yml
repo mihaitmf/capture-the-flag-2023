@@ -1,0 +1,7 @@
+vagrant:
+  project-name: ctf-2023
+  project-root-dir: /var/
+  machine-ip-address: 192.168.56.10
+  box-name: kalilinux/rolling
+  provisioning:
+    shell-dir-relative-path: .dev/provisioning
