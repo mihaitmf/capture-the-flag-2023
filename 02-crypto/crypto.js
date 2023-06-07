@@ -10,6 +10,8 @@ const inputRaw = 'd3 d3 76 34 86 54 97 36 c6 46 d6 26 c6 87 74 ' +
     'c4 c6 13 23 26 a7 65 23 46 86 24 96 26 86 86 ' +
     '74 46 76 55 d6 36 67 13 74 94 c6 a4 33 a4 13 ' +
     '93 75 75 b4 f6 15 94 86 83 74 26 37 65 74 35';
+console.log(inputRaw);
+
 const input = inputRaw.split(' ');
 console.log(input);
 

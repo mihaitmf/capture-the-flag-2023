@@ -1,0 +1,19 @@
+Run the crypto.js file:
+node crypto.js
+
+----------------------------------------------------------------------------------------
+Another possible solution would have been to use a nice online tool: CyberChef
+    - https://gchq.github.io/CyberChef/
+In Recipe, add:
+    - From Hex
+    - Magic
+From the output of Magic choose "Rotate right Amount 4" and add it to Recipe, then continue adding:
+    - Reverse
+    - From Base64
+
+So the final Recipe will look like:
+    - From Hex
+    - Rotate right
+    - Reverse
+    - From Base64
+
