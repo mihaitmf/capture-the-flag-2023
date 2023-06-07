@@ -31,3 +31,15 @@ It displays:
 
 So we have username and password to login:
 admin5543:payub078883660
+
+
+------------------------------------------------------------------------------------------------------
+Part 2: Find details about the integration
+
+The documentation page is hosted at github.
+We can find in the "documentation" repository in the commits history that the CTF flag was deleted in one of the old commits:
+    - https://github.com/ctf-payments/documentation/commits/main
+
+We can also find details about the request signature algorithm in one of the old commits, which would be helpful in the next challenge.
+
+------------------------------------------------------------------------------------------------------
