@@ -10,7 +10,7 @@ Example: 1 UNION SELECT IF(SUBSTRING(user_password,1,1) = CHAR(50),BENCHMARK(500
 If the database response took a long time, we may expect that the first user password character with user_id = 1 is character ‘2’. (CHAR(50) == '2')
 Using this method for the rest of characters, it’s possible to enumerate entire passwords stored in the database. This method works even when the attacker injects the SQL queries and the content of the vulnerable page doesn’t change.
 
--------------------------------------------
+------------------------------------------------------------------------------------------------------
 I used sqlmap to test for SQL injections:
 
 sqlmap -u http://206.189.100.213/login --data="username=user&password=pass" --method POST --dbs --batch

